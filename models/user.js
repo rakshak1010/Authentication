@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const encrypt = require("mongoose-encryption");
 
-const secret = "SomeStupidStringToStoreMySecret";
+// const secret = process.env.SECRET;
+const secret = process.env.SECRET;
 
 const UserSchema = new mongoose.Schema(
   {
