@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const md5 = require("md5");
 
 
 module.exports = {
@@ -14,7 +15,7 @@ module.exports = {
 	createUser: (req, res) => {
 		var user = new User({
 			email: req.body.username,
-			password: req.body.password
+			password: md5(req.body.password)
 		});
 
 		user.save((err, user) => {
@@ -27,7 +28,7 @@ module.exports = {
 	},
 	loginUser: (req, res) => {
 		var email = req.body.username;
-		var	password = req.body.password;
+		var	password = md5(req.body.password);
 		
 
 		User.findOne({email: email}, (err, user) => {
