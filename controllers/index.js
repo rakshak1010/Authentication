@@ -1,61 +1,74 @@
-const User = require("../models/user");
-const bcrypt = require("bcrypt");
+const passportLocalMongoose = require("passport-local-mongoose");
+const passport = require("passport");
 
-const saltRounds = 10;
+const User = require("../models/user");
 
 module.exports = {
 	showHome: (req, res) => {
-		res.render('home');
+		if(req.isAuthenticated()){
+			res.redirect('/secrets');
+		}else{
+			res.render('home');
+		}
 	},
 
 	showRegister: (req, res) => {
-		res.render('register');
+		if(req.isAuthenticated()){
+			res.redirect('/secrets');
+		}else{
+			res.render('register');
+		}
 	},
 
 	showLogin: (req, res) => {
-		res.render('login');
+		if(req.isAuthenticated()){
+			res.redirect('/secrets');
+		}else{
+			res.render('login');
+		}
+	},
+
+	showSecrets: (req, res) => {
+		if(req.isAuthenticated()){
+			res.render('secrets');
+		}else{
+			res.redirect('/login');
+		}
 	},
 
 	createUser: (req, res) => {
-
-		bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
-			var user = new User({
-				email: req.body.username,
-				password: hash
-			});
-
-			user.save((err, user) => {
-				if(err){
-					res.send(err);
-				}else{
-					res.render('secrets');
-				}
-			});
+		User.register({username: req.body.username}, req.body.password, (err, user) => {
+			if(err){
+				console.log(err);
+				res.redirect('/register');
+			}else{
+				passport.authenticate("local")(req, res, function (){
+					res.redirect("/secrets");
+				});
+			}
 		});
 	},
 
 	loginUser: (req, res) => {
-		var email = req.body.username;
-		var	password = req.body.password;
+		var user = new User({
+			username: req.body.username,
+			password: req.body.password
+		});
 
-		User.findOne({email: email}, (err, user) => {
+		req.login(user, (err) => {
 			if(err){
-				res.send(err);
+				console.log(err);
+				res.redirect('/login');
 			}else{
-				if(user){
-					bcrypt.compare(password, user.password, (err, result) => {
-						if(err){
-							res.send(err);
-						}else if(result === true){
-							res.render('secrets');
-						}else{
-							res.send("Invalid password");
-						}
-					});
-				}else{
-					res.send("Given email is not registered");
-				}
+				passport.authenticate("local")(req, res, function (){
+					res.redirect("/secrets");
+				});
 			}
-		})
+		});
+	},
+
+	logoutUser: (req, res) => {
+		req.logout();
+		res.redirect('/');
 	}
 };

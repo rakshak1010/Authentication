@@ -8,5 +8,8 @@ mongoose.connect(url,{useNewUrlParser:true},(err)=>{
     }else{  
         console.log('Database Connected!');  
     }  
-})  
+});
+
+mongoose.set("useCreateIndex", true);
+
 module.exports=mongoose;
