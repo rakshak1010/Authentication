@@ -2,7 +2,7 @@ const mongoose=require('mongoose');
 
 const url=process.env.MONGO_URI;
     
-mongoose.connect(url,{useNewUrlParser:true},(err)=>{  
+mongoose.connect(url,{useNewUrlParser: true, useUnifiedTopology: true},(err)=>{  
     if(err){  
         console.log('Error in database connection');  
     }else{  

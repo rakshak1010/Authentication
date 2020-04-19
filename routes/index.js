@@ -8,6 +8,12 @@ router.get('/', index.showHome);
 
 router.get('/secrets', index.showSecrets);
 
+router.get('/auth/google', index.googleAuth);
+router.get('/auth/google/secrets', index.googleCallback);
+
+router.get('/auth/github', index.githubAuth);
+router.get('/auth/github/secrets', index.githubCallback);
+
 router.get('/logout', index.logoutUser);
 
 router.get('/login', index.showLogin);

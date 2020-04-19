@@ -36,6 +36,12 @@ module.exports = {
 		}
 	},
 
+	googleAuth: passport.authenticate('google', {scope : ['profile']}),
+	googleCallback: passport.authenticate( 'google', { successRedirect: '/secrets', failureRedirect: '/auth/google'} ),
+
+	githubAuth: passport.authenticate('github', {scope : ['user:email']}),
+	githubCallback: passport.authenticate( 'github', { successRedirect: '/secrets', failureRedirect: '/auth/github'} ),
+
 	createUser: (req, res) => {
 		User.register({username: req.body.username}, req.body.password, (err, user) => {
 			if(err){

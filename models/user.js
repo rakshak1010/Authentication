@@ -1,20 +1,20 @@
 const mongoose = require("mongoose");
-const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
+const findOrCreate = require('mongoose-findorcreate');
 
 const UserSchema = new mongoose.Schema(
   {
+  	username: String,
     email: String,
-    password: String
+    password: String,
+    googleId: String,
+    githubId: String
   }
 );
 
 UserSchema.plugin(passportLocalMongoose);
+UserSchema.plugin(findOrCreate);
 
 User = mongoose.model("User", UserSchema);
-
-passport.use(User.createStrategy());
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
 
 module.exports = User;
