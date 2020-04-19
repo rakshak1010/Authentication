@@ -30,7 +30,7 @@ Create a [.env](https://www.npmjs.com/package/dotenv) file in the root directory
 ```bash
 SECRET=SomeRandomStringToStoreYourSecret
 
-MONGO_URI=---Mongo DB url---
+MONGO_URI=---Mongo DB Url---
 
 GOOGLE_CLIENT_ID=---Google Client ID---
 GOOGLE_CLIENT_SECRET=---Google Client Secret---
@@ -41,6 +41,7 @@ FACEBOOK_CLIENT_SECRET=---Facebook Client Secret---
 GITHUB_CLIENT_ID=---GitHub Client ID---
 GITHUB_CLIENT_SECRET=---GitHub Client Secret---
 ```
+Change the Mongo DB Url and your Client ID and Client Secret for OAuth2 authentication.  
 
 ## Running Server
 ```bash
